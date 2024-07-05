@@ -1,11 +1,22 @@
 import { Request, Response } from 'express';
-import { tools, Tool } from '../utils/models';
+import { tools } from '../utils/models';
 import { authorize } from '../utils/firebase';
 
-export const getToolsByReserverID = async (req: Request, res: Response) => {
+const getToolsByReserverID = async (req: Request, res: Response) => {
   try {
-    // Extract reserverID from request parameters or query
-    const { reserverID } = req.params; // Assuming reserverID is passed as a parameter
+    // Extract reserverID from request parameters
+    const { reserverID } = req.params;
+
+    // Ensure the user is authorized
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+
+    const user = await authorize(token);
+    if (!user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
 
     // Query database for tools with the specified reserverID
     const foundTools = await tools.find({ reserverID });
@@ -18,3 +29,5 @@ export const getToolsByReserverID = async (req: Request, res: Response) => {
     res.status(500).send('Server Error');
   }
 };
+
+export default getToolsByReserverID;

@@ -4,16 +4,9 @@ import cors from "cors";
 import parts_add from "./parts/parts_add";
 import parts_get from "./parts/parts_get";
 import parts_remove from "./parts/parts_remove";
-import add_tool from "./tools/add_tool";
-import remove_tool from "./tools/remove_tool";
-import change_tool_status from "./tools/change_tool_status";
-import checkout_tool from "./tools/checkout_tool";
-import get_category from "./tools/get_category";
-import get_tool from "./tools/get_tool";
-import get_tools from "./tools/get_tools";
-import reserve_tool from "./tools/reserve_tool";
-import remove_reservation from "./tools/remove_reservation";
-import return_tool from "./tools/return_tool";
+import deleteToolByReserverID from "./tools/deleteToolByReserverID";
+import getToolsByReserverID from "./tools/getToolsByReserverID";
+import postTool from "./tools/postTool";
 import remove_user from "./users/remove_user";
 import list_users from "./users/list_users";
 import create_user from "./users/create_user";
@@ -113,14 +106,14 @@ app.post("/", async (req: Request, res: Response) => {
     case "parts-remove":
       parts_remove(req, res);
       break;
-    case "add-tool":
-      add_tool(req, res);
+    case "deleteToolByReserverID":
+      deleteToolByReserverID(req, res);
       break;
-    case "remove-tool":
-      remove_tool(req, res);
+    case "getToolsByReserverID":
+      getToolsByReserverID(req, res);
       break;
-    case "remove-reservation":
-      remove_reservation(req, res);
+    case "postTool":
+      postTool(req, res);
       break;
     case "remove-user":
       remove_user(req, res);
@@ -130,27 +123,6 @@ app.post("/", async (req: Request, res: Response) => {
       break;
     case "create-user":
       create_user(req, res);
-      break;
-    case "change-tool-status":
-      change_tool_status(req, res);
-      break;
-    case "checkout-tool":
-      checkout_tool(req, res);
-      break;
-    case "get-category":
-      get_category(req, res);
-      break;
-    case "get-tool":
-      get_tool(req, res);
-      break;
-    case "get-tools":
-      get_tools(req, res);
-      break;
-    case "reserve-tool":
-      reserve_tool(req, res);
-      break;
-    case "return-tool":
-      return_tool(req, res);
       break;
     case "reimbursement":
       reimbursement(req, res);
