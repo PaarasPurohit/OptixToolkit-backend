@@ -3,7 +3,7 @@ import { inventory, Inventory } from '../utils/models'
 import { authorize } from '../utils/firebase'
 
 function validateInventory(body: any): body is Inventory {
-	return typeof body.name === 'string' && typeof body.barcodeId === 'string' && typeof body.count === 'number'
+	return typeof body.toolName === 'string' && typeof body.barcodeId === 'string'
 }
 
 export default async function add_inventory(req: Request, res: Response) {
@@ -15,10 +15,8 @@ export default async function add_inventory(req: Request, res: Response) {
 	try {
 		if (!validateInventory(req.body)) throw new Error('Bad params')
 		await inventory.create({
-			name: req.body.name,
-			count: req.body.count,
+			name: req.body.toolName,
             barcodeId: req.body.barcodeId,
-            description: req.body.description,
 		})
 		res.status(200).json({ err: false })
 	} catch (e) {

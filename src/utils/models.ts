@@ -45,9 +45,8 @@ export const users = mongoose.model<UserDoc>('users', UserSchema)
 export interface Tool {
 	name: string
 	category: string
-	status: string
-	reservations: string[]
-	user: String
+	isInUse: boolean
+	reserverID: string
 }
 
 interface ToolDoc extends Document, Tool {}
@@ -55,9 +54,8 @@ interface ToolDoc extends Document, Tool {}
 const ToolSchema: Schema = new Schema({
 	name: { type: String, required: true },
 	category: { type: String, required: true },
-	reservations: { type: [String], required: true },
-	status: { type: String, required: true },
-	user: { type: String, required: true },
+	isInUse: { type: Boolean, required: true },
+	reserverID: {type: String, required: true}
 })
 
 export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
@@ -101,22 +99,16 @@ export const parts = mongoose.model<PartDoc>('parts', PartSchema)
 /* Inventory */
 
 export interface Inventory {
-	name: string
-	description: string
-	count: number
-   barcodeId: string
-	status: string
+	toolName: string
+	barcodeId: string
 	location: string
 }
 
 interface InventoryDoc extends Document, Inventory {}
 
 const InventorySchema: Schema = new Schema({
-	name: { type: String, required: true },
-	description: { type: String, required: false },
-	count: { type: Number, required: true },
+	toolName: { type: String, required: true },
 	barcodeId: { type: String, required: true },
-	status: { type: String, required: true },
 	location: { type: String, required: true }
 })
 
